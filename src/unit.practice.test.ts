@@ -1,5 +1,5 @@
 import { distance, xyz } from 'tiny-game-engine/lib/index.js'
-import { spawn, Unit } from './unit'
+import { spawn, spawnBase, Unit } from './unit'
 import { playPractice, practiceGoal, choosePracticeTarget, practice, PracticeGoal } from './unit.practice'
 import { expect } from '@esm-bundle/chai';
 import { restGoal } from './unit.rest';
@@ -10,9 +10,9 @@ describe('practicing', () => {
       older: Unit & { goal: PracticeGoal }
 
   beforeEach(() => {
-    younger = spawn(xyz()) as Unit & { goal: PracticeGoal }
+    younger = spawn(xyz(), spawnBase(xyz(), 'a')) as Unit & { goal: PracticeGoal }
     younger.goal = practiceGoal(younger)
-    older = spawn(xyz()) as Unit & { goal: PracticeGoal }
+    older = spawn(xyz(), younger.base) as Unit & { goal: PracticeGoal }
     older.goal = practiceGoal(older)
     older.age += 1
   })

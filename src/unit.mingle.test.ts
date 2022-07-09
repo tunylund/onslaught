@@ -1,6 +1,6 @@
 import { distance, xyz } from 'tiny-game-engine/lib/index.js'
 import { expect } from '@esm-bundle/chai';
-import { spawn, Unit } from './unit';
+import { spawn, spawnBase, Unit } from './unit';
 import { chooseMingleTarget, mingle, mingleGoal, MingleGoal, playMingle } from './unit.mingle';
 import { restGoal } from './unit.rest';
 
@@ -10,9 +10,9 @@ describe('mingling', () => {
       unitB: Unit & { goal: MingleGoal }
 
   beforeEach(() => {
-    unitA = spawn(xyz()) as Unit & { goal: MingleGoal }
+    unitA = spawn(xyz(), spawnBase(xyz(), 'a')) as Unit & { goal: MingleGoal }
     unitA.goal = mingleGoal(unitA)
-    unitB = spawn(xyz()) as Unit & { goal: MingleGoal }
+    unitB = spawn(xyz(), unitA.base) as Unit & { goal: MingleGoal }
     unitB.goal = mingleGoal(unitB)
   })
 

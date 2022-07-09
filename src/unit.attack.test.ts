@@ -1,7 +1,7 @@
 import { expect } from "@esm-bundle/chai"
-import { distance, xyz } from "tiny-game-engine"
+import { distance, xyz } from 'tiny-game-engine/lib/index.js'
 import { OLD_AGE } from "./game"
-import { spawn, Unit } from "./unit"
+import { spawn, spawnBase, Unit } from "./unit"
 import { attack, attackGoal, AttackGoal, chooseAttackTarget, fightChance, playAttack } from "./unit.attack"
 
 describe('attacking', () => {
@@ -10,12 +10,10 @@ describe('attacking', () => {
       unitB: Unit & { goal: AttackGoal }
 
   beforeEach(() => {
-    unitA = spawn(xyz()) as Unit & { goal: AttackGoal }
+    unitA = spawn(xyz(), spawnBase(xyz(), 'a')) as Unit & { goal: AttackGoal }
     unitA.goal = attackGoal(unitA)
-    unitA.team = 'a'
-    unitB = spawn(xyz()) as Unit & { goal: AttackGoal }
+    unitB = spawn(xyz(), spawnBase(xyz(), 'b')) as Unit & { goal: AttackGoal }
     unitB.goal = attackGoal(unitB)
-    unitB.team = 'b'
   })
 
   describe('chooseAttackTarget', () => {

@@ -44,7 +44,7 @@ export function mingle(step: number, unit: Unit & { goal: MingleGoal }, target: 
   if (unit.goal.mingleDuration >= unit.goal.maxDuration && target.goal.mingleDuration >= target.goal.maxDuration) {
     unit.exhaustion = unit.endurance
     target.exhaustion = target.endurance;
-    return spawn(add(unit.pos.cor, vectorTo(unit, target, distance(unit, target) / 2) ))
+    return spawn(add(unit.pos.cor, vectorTo(unit, target, distance(unit, target) / 2) ), unit.base)
   } else {
     unit.goal.mingleDuration += step
   }

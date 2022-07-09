@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "esbuild src/onslaught.ts --bundle --minify --sourcemap > onslaught.mjs",
-    "test": "web-test-runner \"src/**/*.test.ts\" --node-resolve",
+    "test": "tsc --noEmit --project . && web-test-runner \"src/**/*.test.ts\" --node-resolve",
     "start": "web-dev-server --open . --node-resolve"
   },
   "type": "module",
