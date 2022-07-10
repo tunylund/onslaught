@@ -1,4 +1,4 @@
-import { draw, drawingLayer, loop, xyz } from 'tiny-game-engine/lib/index.js'
+import { buildLayer, draw, drawingLayer, loop, xyz } from 'tiny-game-engine/lib/index.js'
 import { chooseBattleGoal, chooseCalmGoal, spawn, spawnBase, spawnRandom, Team, Unit } from './unit'
 import { attackGoal, AttackGoal, playAttack } from './unit.attack'
 import { MingleGoal, playMingle } from './unit.mingle'
@@ -59,6 +59,7 @@ export function drawLoop() {
   const unitA = spawn(xyz(), spawnBase(xyz(), 'a')) as Unit & { goal: AttackGoal }
   const unitB = spawn(xyz(), spawnBase(xyz(), 'b'))
   unitA.goal = attackGoal(unitA)
+  const layer = buildLayer(3, 3)
   return loop((step) => {
     draw((ctx, cw, ch) => {
       ctx.fillStyle = 'black'
@@ -68,8 +69,10 @@ export function drawLoop() {
       ctx.textAlign = 'center'
       ctx.fillText('Attack', 10, 50);
 
-      playAttack(step, unitA, [unitA, unitB])
+      ctx.fillStyle = 'white'
+      ctx.fillRect(unitA.pos.cor.x, unitA.pos.cor.y, unitA.dim.x, unitA.dim.y)
     })
+    playAttack(step, unitA, [unitA, unitB])
   })
 }
 

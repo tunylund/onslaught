@@ -1,9 +1,21 @@
 <!DOCTYPE html>
 <link rel="icon" href="data:;base64,=">
 <style>
-  html, body { padding: 0; margin: 0; display: flex }
+  html, body, iframe { padding: 0; margin: 0; display: flex; border: 0 }
 </style>
 <script type="module">
-  import { drawLoop } from './src/game.ts'
-  drawLoop()
+  import * as visuals from './src/unit.visuals.ts'
+  for (let scenario in visuals) {
+    const frame = document.createElement('iframe')
+    frame.width = window.innerWidth
+    frame.height = window.innerHeight
+    frame.onload = function() {
+        const doc = frame.contentDocument || frame.contentWindow.document;
+        const style = doc.createElement('style')
+        style.appendChild(document.createTextNode('html, body { padding: 0; margin: 0; display: flex }'));
+        doc.head.appendChild(style)
+        visuals[scenario](frame.contentWindow)
+    }
+    document.body.appendChild(frame)
+  }
 </script>

@@ -28,7 +28,7 @@ export interface Unit extends Entity {
 export type Goal = MingleGoal | RestGoal | PracticeGoal | AttackGoal | RetreatGoal
 
 export function spawn(cor: XYZ, base: Base): Unit {
-  return entity<Unit>(position(cor), xyz(10), xyz(), {
+  return entity<Unit>(position(cor), xyz(10, 10), xyz(), {
     goal: restGoal(),
     speed: 1,
     age: 0,
