@@ -7,14 +7,17 @@
   import * as visuals from './src/unit.visuals.ts'
   for (let scenario in visuals) {
     const frame = document.createElement('iframe')
-    frame.width = window.innerWidth
+    frame.name = scenario
+    frame.width = window.innerWidth / Object.keys(visuals).length
     frame.height = window.innerHeight
-    frame.onload = function() {
-        const doc = frame.contentDocument || frame.contentWindow.document;
-        const style = doc.createElement('style')
-        style.appendChild(document.createTextNode('html, body { padding: 0; margin: 0; display: flex }'));
-        doc.head.appendChild(style)
-        visuals[scenario](frame.contentWindow)
+    frame.onload = async function() {
+      const vis = await import('./src/unit.visuals.ts')
+      const doc = frame.contentDocument || frame.contentWindow.document;
+      const style = doc.createElement('style')
+      style.appendChild(document.createTextNode('html, body { padding: 0; margin: 0; display: flex }'));
+      doc.head.appendChild(style)
+      frame.contentWindow.eval('import("./src/unit.visuals.ts").then((visuals) => visuals.' + scenario + '());')
+      // vis[scenario](frame.contentWindow)
     }
     document.body.appendChild(frame)
   }

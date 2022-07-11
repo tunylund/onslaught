@@ -6,7 +6,7 @@ export interface MingleGoal {
   type: 'mingle'
   target?: Unit & { goal: MingleGoal }
   minDistance: number
-  mingleDuration: number
+  duration: number
   maxDuration: number
 }
 
@@ -14,7 +14,7 @@ export function mingleGoal(unit: Unit): MingleGoal {
   return {
     type: 'mingle',
     minDistance: unit.dim.size,
-    mingleDuration: 0,
+    duration: 0,
     maxDuration: MINGLE_DURATION
   }
 }
@@ -41,12 +41,12 @@ export function playMingle(step: number, unit: Unit & { goal: MingleGoal }, unit
 }
 
 export function mingle(step: number, unit: Unit & { goal: MingleGoal }, target: Unit & { goal: MingleGoal }): Unit | void {
-  if (unit.goal.mingleDuration >= unit.goal.maxDuration && target.goal.mingleDuration >= target.goal.maxDuration) {
+  if (unit.goal.duration >= unit.goal.maxDuration && target.goal.duration >= target.goal.maxDuration) {
     unit.exhaustion = unit.endurance
     target.exhaustion = target.endurance;
     return spawn(add(unit.pos.cor, vectorTo(unit, target, distance(unit, target) / 2) ), unit.base)
   } else {
-    unit.goal.mingleDuration += step
+    unit.goal.duration += step
   }
 }
 

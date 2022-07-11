@@ -2,7 +2,7 @@ import { buildLayer, draw, drawingLayer, loop, xyz } from 'tiny-game-engine/lib/
 import { chooseBattleGoal, chooseCalmGoal, spawn, spawnBase, spawnRandom, Team, Unit } from './unit'
 import { attackGoal, AttackGoal, playAttack } from './unit.attack'
 import { MingleGoal, playMingle } from './unit.mingle'
-import { playPractice } from './unit.practice'
+import { playPractice, PracticeGoal } from './unit.practice'
 import { playRest } from './unit.rest'
 
 export const BABY_MAX_AGE = 5000
@@ -123,7 +123,7 @@ function calmLoop(step: number, unit: Unit, units: Unit[]) {
   }
 
   if (unit.goal.type === 'practice') {
-    playPractice(step, unit, units)
+    playPractice(step, unit as Unit & { goal: PracticeGoal }, units)
   }
 }
 

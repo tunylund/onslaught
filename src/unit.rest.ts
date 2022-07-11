@@ -3,6 +3,7 @@ import { Unit } from "./unit"
 export interface RestGoal {
   type: 'rest'
   duration: number
+  target?: Unit
 }
 
 export function restGoal(): RestGoal {

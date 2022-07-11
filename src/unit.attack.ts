@@ -7,13 +7,15 @@ export interface AttackGoal {
   target?: Unit
   minDistance: number
   coolDown: number
+  duration: number
 }
 
 export function attackGoal(unit: Unit): AttackGoal {
   return {
     type: 'attack',
     minDistance: unit.dim.size,
-    coolDown: 0
+    coolDown: 0,
+    duration: 0
   }
 }
 
@@ -26,8 +28,10 @@ export function playAttack(step: number, unit: Unit & { goal: AttackGoal }, unit
     if (distance(unit, target) > goal.minDistance) {
       moveTowards(step, unit, target)
     } else {
+      goal.duration += step
       if (goal.coolDown > 0) goal.coolDown -= step
       else {
+        goal.duration = 0
         attack(step, unit, target)
       }
     }

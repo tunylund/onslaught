@@ -5,12 +5,14 @@ export interface PracticeGoal {
   type: 'practice'
   minDistance: number
   target?: Unit & { goal: PracticeGoal }
+  duration: number
 }
 
 export function practiceGoal(unit: Unit): PracticeGoal {
   return {
     type: 'practice',
-    minDistance: unit.dim.size
+    minDistance: unit.dim.size,
+    duration: 0
   }
 }
 
@@ -24,13 +26,14 @@ export function choosePracticeTarget(unit: Unit, units: Unit[]) {
   return availableUnits.sort((a, b) => distance(a, b))[0]
 }
 
-export function practice(step: number, unit: Unit, target: Unit) {
+export function practice(step: number, unit: Unit & { goal: PracticeGoal }, target: Unit) {
+  unit.goal.duration += step
   unit.xp += step
   unit.exhaustion += step
   target.exhaustion += step/2
 }
 
-export function playPractice(step: number, unit: Unit, units: Unit[]) {
+export function playPractice(step: number, unit: Unit & { goal: PracticeGoal }, units: Unit[]) {
   const goal = unit.goal as PracticeGoal
   if (!goal.target) {
     const target = choosePracticeTarget(unit, units)
